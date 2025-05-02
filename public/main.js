@@ -10,7 +10,7 @@ Array.from(thumbUp).forEach(function(element) {
         fetch('messages', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
+          body: JSON.stringify({ //this is body from req.body.name
             'name': name,
             'msg': msg,
             'thumbUp':thumbUp
@@ -49,15 +49,15 @@ Array.from(thumbDown).forEach(function(element) {
   element.addEventListener('click', function() {
     const name = this.parentNode.parentNode.childNodes[1].innerText;
     const msg = this.parentNode.parentNode.childNodes[3].innerText;
-    const thumbDown = parseFloat(this.parentNode.parentNode.childNodes[5].innerText) //it can remain as const thumbUp
+    const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText) //it can remain as const thumbUp
 
-    fetch('messagesDown', {
+    fetch('messagesDown', { //connects to a new collection in the database
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         'name': name,
         'msg': msg,
-        'thumbDown': thumbDown
+        'thumbUp': thumbUp
       })
     })
     .then(response => {

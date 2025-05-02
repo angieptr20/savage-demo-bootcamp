@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient
 
 var db, collection;
 
+//leon's connection string
 const url = "mongodb+srv://demo:demo@cluster0-q2ojb.mongodb.net/test?retryWrites=true";
 const dbName = "demo";
 
@@ -21,12 +22,12 @@ app.listen(3000, () => {
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-app.use(express.static('public'))
+app.use(express.static('public')) //express handles our public folder routing, so we don't need separate files for everything.
 
 app.get('/', (req, res) => {
-  db.collection('messages').find().toArray((err, result) => {
+  db.collection('messages').find().toArray((err, result) => { //result is the list of objects from DB
     if (err) return console.log(err)
-    res.render('index.ejs', {messages: result})
+    res.render('index.ejs', {messages: result}) //res.render is what allows the ejs file to show the data from the database
   })
 })
 
@@ -42,7 +43,7 @@ app.put('/messages', (req, res) => {
   db.collection('messages')
   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
     $set: {
-      thumbUp:req.body.thumbUp + 1,
+      thumbUp:req.body.thumbUp + 1
     }
   }, {
     sort: {_id: -1},
@@ -53,11 +54,11 @@ app.put('/messages', (req, res) => {
   })
 })
 
-app.put('/messagesDown', (req, res) => {
+app.put('/messagesDown', (req, res) => { //because we're using the same method twice to do different things, the route name must be different
   db.collection('messages')
   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
     $set: {
-      thumbUp:req.body.thumbDown - 1
+      thumbUp:req.body.thumbUp - 1
     }
   }, {
     sort: {_id: -1},
